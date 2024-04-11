@@ -10,12 +10,17 @@ use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Address::class);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return AddressResource::collection(Address::all());
+        return AddressResource::collection(auth()->user()->addresses()->get());
     }
 
     /**
@@ -23,8 +28,7 @@ class AddressController extends Controller
      */
     public function store(StoreAddressRequest $request)
     {
-        $address = Address::create($request->validated());
-
+        $address = $request->user()->addresses()->create($request->validated());
         return AddressResource::make($address);
     }
 

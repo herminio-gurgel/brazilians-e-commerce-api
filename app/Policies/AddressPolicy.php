@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Address;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class AddressPolicy
 {
@@ -13,7 +12,15 @@ class AddressPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
+    }
+
+    /**
+     * Determine whether the user can create the model.
+     */
+    public function create(User $user): bool
+    {
+        return true;
     }
 
     /**
@@ -21,15 +28,7 @@ class AddressPolicy
      */
     public function view(User $user, Address $address): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        //
+        return $user->id === $address->user_id;
     }
 
     /**
@@ -37,7 +36,7 @@ class AddressPolicy
      */
     public function update(User $user, Address $address): bool
     {
-        //
+        return $user->id === $address->user_id;
     }
 
     /**
@@ -45,22 +44,6 @@ class AddressPolicy
      */
     public function delete(User $user, Address $address): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Address $address): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Address $address): bool
-    {
-        //
+        return $user->id === $address->user_id;
     }
 }
